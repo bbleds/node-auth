@@ -36,7 +36,7 @@ app.use((req,res,next) =>
    req.session.visits[req.url]++;
    console.log(req.session);
 
-   app.locals.user = req.session.user || { email: 'Guest' };
+   res.locals.user = req.session.user || { email: 'Guest' };
    next();
 });
 
