@@ -5,9 +5,12 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// set view engine
+app.set("view engine", "jade");
+
 app.get("/", (req, res) =>
 {
-  res.send("NODE AUTH!!!!!!!!");
+  res.render("index");
 });
 
 app.listen (PORT, () =>
