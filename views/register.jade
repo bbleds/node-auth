@@ -1,0 +1,8 @@
+form(method="POST", action="/register") 
+  .input-group
+    label(for="email") Email
+      input#email(type="email", name='email', required="true")
+    label(for="password") Password
+      input#password(type="password", name='password', required="true")
+      input#password-verify(type="password", name='password-verify', required="true", placeholder="confirm password")
+    input(type="submit", value="Register")
