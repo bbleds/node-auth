@@ -37,7 +37,12 @@ app.get("/register", (req, res) =>
 app.post("/register", (req, res) =>
 {
   console.log(req.body);
-  res.redirect("/");
+  if(req.body.password === req.body.passwordVerify){
+    res.redirect("/");
+  } else {
+    res.render("register", {email: req.body.email});
+  }
+
 });
 
 app.listen (PORT, () =>
