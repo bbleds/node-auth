@@ -4,6 +4,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const RedisStore = require("connect-redis")(session);
 const app = express();
 
 // envrionment variables
@@ -15,7 +16,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // use express sessions with session secret environment variable
 app.use(session({
-  secret: SESSION_SECRET
+  secret: SESSION_SECRET,
+  store: new RedisStore()
 }));
 
 //create middleware to test session
