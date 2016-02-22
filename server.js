@@ -15,7 +15,7 @@ const SESSION_SECRET = process.env.SESSION_SECRET || 'supersecret';
 app.use(bodyParser.urlencoded({extended: false}));
 
 // use express sessions with session secret environment variable
-//integrate redis for storing sessions even when server stops
+// integrate redis for storing sessions even when server stops
 app.use(session({
   secret: SESSION_SECRET,
   store: new RedisStore()
@@ -24,10 +24,12 @@ app.use(session({
 //create middleware to test session
 app.use((req,res,next) =>
 {
-  req.session.count = req.session.count || 0;
-  req.session.count++;
-  console.log(req.session);
-  next();
+  req.session.visits = req.session.visits || {};
+   req.session.visits[req.url] = req.session.visits[req.url] || 0;
+   req.session.visits[req.url]++
+
+   console.log(req.session);
+   next();
 });
 
 // set view engine
