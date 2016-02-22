@@ -3,11 +3,18 @@
 // dependencies
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require("express-session");
 const app = express();
 const PORT = process.env.PORT || 3000;
+const SESSION_SECRET = process.env.SESSION_SECRET || 'supersecret';
 
 // set up body parser to parse url encoded form data from browser
 app.use(bodyParser.urlencoded({extended: false}));
+
+// use express sessions with session secret environment variable
+app.use(session({
+  secret: SESSION_SECRET
+}));
 
 // set view engine
 app.set("view engine", "jade");
