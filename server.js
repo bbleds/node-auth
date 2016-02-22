@@ -4,8 +4,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const mongoose = require("mongoose");
 const RedisStore = require("connect-redis")(session);
 const app = express();
+
+// routes
+const userRoutes = require('./lib/users/routes');
 
 // envrionment variables
 const PORT = process.env.PORT || 3000;
@@ -21,6 +25,9 @@ app.use(session({
   store: new RedisStore()
 }));
 
+// use user routes
+app.use(userRoutes);
+
 //create middleware to test session
 app.use((req,res,next) =>
 {
@@ -28,6 +35,8 @@ app.use((req,res,next) =>
    req.session.visits[req.url] = req.session.visits[req.url] || 0;
    req.session.visits[req.url]++;
    console.log(req.session);
+
+   app.locals.user = req.session.user || { email: 'Guest' };
    next();
 });
 
@@ -40,34 +49,11 @@ app.get("/", (req, res) =>
   res.render("index");
 });
 
-// login routes
-app.get("/login", (req, res) =>
+mongoose.connect("mongodb://localhost:27017/nodeauth", (err) =>
 {
-  res.render("login");
-});
-app.post("/login", (req, res) =>
-{
-  console.log(req.body);
-  res.redirect("/");
-});
-
-// register routes
-app.get("/register", (req, res) =>
-{
-  res.render("register");
-});
-app.post("/register", (req, res) =>
-{
-  console.log(req.body);
-  if(req.body.password === req.body.passwordVerify){
-    res.redirect("/");
-  } else {
-    res.render("register", {email: req.body.email});
-  }
-
-});
-
-app.listen (PORT, () =>
-{
-  console.log(`App listening on port ${PORT}`);
+  if(err) throw err;
+    app.listen (PORT, () =>
+    {
+      console.log(`App listening on port ${PORT}`);
+    });
 });
