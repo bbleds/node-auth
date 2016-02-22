@@ -15,6 +15,7 @@ const SESSION_SECRET = process.env.SESSION_SECRET || 'supersecret';
 app.use(bodyParser.urlencoded({extended: false}));
 
 // use express sessions with session secret environment variable
+//integrate redis for storing sessions even when server stops
 app.use(session({
   secret: SESSION_SECRET,
   store: new RedisStore()
