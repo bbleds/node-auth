@@ -5,6 +5,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const app = express();
+
+// envrionment variables
 const PORT = process.env.PORT || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || 'supersecret';
 
@@ -15,6 +17,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
   secret: SESSION_SECRET
 }));
+
+//create middleware to test session
+app.use((req,res,next) =>
+{
+  req.session.count = req.session.count || 0;
+  req.session.count++;
+  console.log(req.session);
+  next();
+});
 
 // set view engine
 app.set("view engine", "jade");
