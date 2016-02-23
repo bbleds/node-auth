@@ -26,6 +26,7 @@
     "express-session": "^1.13.0",
     "jade": "^1.11.0",
     "lodash": "^4.5.1",
+    "method-override": "^2.3.5",
     "mongoose": "^4.4.4",
     "node-sass-middleware": "^0.9.7",
     "path": "^0.12.7"

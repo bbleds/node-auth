@@ -1,1 +1,8 @@
-h1 hello #{user.email}
+h1 Hello #{user.email}
+
+if user.email === 'Guest'
+  form(action='/login', method='GET')
+    input(type='submit', value='Login')
+else
+  form(action='/logout?_method=delete', method='POST')
+    input(type='submit', value='Logout')

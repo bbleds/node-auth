@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const RedisStore = require("connect-redis")(session);
+const methodOverride = require('method-override');
 const app = express();
 
 // routes
@@ -17,6 +18,9 @@ const SESSION_SECRET = process.env.SESSION_SECRET || 'supersecret';
 
 // set up body parser to parse url encoded form data from browser
 app.use(bodyParser.urlencoded({extended: false}));
+
+// use method override
+app.use(methodOverride('_method'));
 
 // use express sessions with session secret environment variable
 // integrate redis for storing sessions even when server stops
